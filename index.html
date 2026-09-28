@@ -1,589 +1,994 @@
+这次为你带来一个**极具电影级工业视觉冲击力（Cinematic Dark & Lava Flame）**的全新网页——**「AetherLens (幻境光枢) | 下一代多模态空间计算与物理神经渲染引擎」**。
+
+---
+
+### 🎨 本期设计革新特色
+* **全新前沿领域**：聚焦当下最前沿的 **3D 高斯泼溅（3D Gaussian Splatting）与电影级实时神经物理渲染（Neural Cinema & Spatial 3D）**。
+* **色彩与光影系统**：告别常规冷色，采用**深邃午夜曜石黑（`#08080c`）**底色，融合**熔岩烈焰橙（Lava Orange `#ff5722`）**与**流光琥珀金（Amber `#ff9800`）**的高饱和度光晕，呈现如同影视调色般的质感。
+* **Hero 视口模拟器（Interactive 3D Viewport）**：右侧设计了一个**高拟真 3D 渲染引擎调试视口**，带有空间网格参考线、高斯点云统计（`4.8M Splats`）、光线采样率及即时 FPS 帧率仪表盘。
+* **功能完整性**：涵盖顶部导航、Hero 视口交互、6 宫格神经特性、4 项超能性能基准、电影级好莱坞总监评价轮播、按月/年付自动打折的定价卡片、全幅 CTA 呼吁和完整专业页脚。
+
+---
+
+### 完整 HTML 代码
+
+你可以将以下代码保存为 `.html` 文件（如 `aetherlens.html`），双击即可在任何现代浏览器中打开预览：
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeFlow | Visual Development Platform</title>
+    <title>AetherLens | Real-Time Neural 3D & Spatial Computing Engine</title>
+    <!-- Font Awesome & Modern Typography -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-void: #07070a;
+            --bg-surface: #0f0f15;
+            --bg-panel: rgba(18, 18, 26, 0.75);
+            --bg-panel-hover: rgba(28, 28, 38, 0.85);
+            --border-dim: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(255, 87, 34, 0.4);
+            --lava-primary: #ff5722;
+            --lava-amber: #ff9800;
+            --lava-gradient: linear-gradient(135deg, #ff5722 0%, #ff9800 100%);
+            --text-high: #f8fafc;
+            --text-mid: #94a3b8;
+            --text-low: #64748b;
+            --font-title: 'Syne', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-code: 'Space Mono', monospace;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: var(--font-body);
+            background-color: var(--bg-void);
+            color: var(--text-high);
             line-height: 1.6;
-            color: #333;
-            background-color: #f9fbfd;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 10%, rgba(255, 87, 34, 0.09) 0%, transparent 45%),
+                radial-gradient(circle at 85% 70%, rgba(255, 152, 0, 0.07) 0%, transparent 45%);
+            background-attachment: fixed;
         }
-        
-        h1, h2, h3, h4 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            line-height: 1.3;
-        }
-        
+
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
-        
-        /* Header & Navigation */
+
+        .lava-text {
+            background: var(--lava-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Top Announcement Ribbon */
+        .alert-strip {
+            background: linear-gradient(90deg, #ff5722, #ff9800);
+            color: #07070a;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            padding: 8px 16px;
+            letter-spacing: 0.3px;
+        }
+
+        .alert-strip span {
+            text-decoration: underline;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        /* Navigation Header */
         header {
-            background-color: #fff;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-            position: fixed;
+            position: sticky;
+            top: 0;
+            left: 0;
             width: 100%;
             z-index: 1000;
+            background: rgba(7, 7, 10, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-dim);
+            transition: all 0.3s;
         }
-        
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            height: 76px;
         }
-        
-        .logo {
+
+        .brand-logo {
             display: flex;
             align-items: center;
+            gap: 12px;
+            text-decoration: none;
         }
-        
-        .logo-icon {
-            color: #4361ee;
-            font-size: 28px;
-            margin-right: 10px;
+
+        .logo-glyph {
+            width: 38px;
+            height: 38px;
+            background: var(--lava-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #07070a;
+            font-size: 18px;
+            box-shadow: 0 0 20px rgba(255, 87, 34, 0.45);
         }
-        
-        .logo-text {
-            font-family: 'Poppins', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
+
+        .logo-wordmark {
+            font-family: var(--font-title);
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #fff;
         }
-        
-        .logo-text span {
-            color: #4361ee;
+
+        .logo-wordmark span {
+            color: var(--lava-primary);
         }
-        
-        .nav-links {
+
+        .nav-menu {
             display: flex;
             list-style: none;
+            gap: 32px;
         }
-        
-        .nav-links li {
-            margin-left: 30px;
-        }
-        
-        .nav-links a {
+
+        .nav-menu a {
             text-decoration: none;
-            color: #555;
+            color: var(--text-mid);
+            font-size: 15px;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: color 0.2s;
         }
-        
-        .nav-links a:hover {
-            color: #4361ee;
+
+        .nav-menu a:hover {
+            color: #fff;
         }
-        
-        .cta-button {
-            background-color: #4361ee;
-            color: white;
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-lava {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--lava-gradient);
+            color: #07070a;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 11px 24px;
+            border-radius: 8px;
             border: none;
-            padding: 12px 28px;
-            border-radius: 6px;
-            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 20px rgba(255, 87, 34, 0.3);
+            text-decoration: none;
         }
-        
-        .cta-button:hover {
-            background-color: #3a56d4;
+
+        .btn-lava:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 87, 34, 0.5);
         }
-        
-        .mobile-menu-btn {
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 11px 24px;
+            border-radius: 8px;
+            border: 1px solid var(--border-dim);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .mobile-hamburger {
             display: none;
             background: none;
             border: none;
-            font-size: 24px;
-            color: #333;
+            color: #fff;
+            font-size: 22px;
             cursor: pointer;
         }
-        
+
         /* Hero Section */
         .hero {
-            padding: 150px 0 100px;
-            background: linear-gradient(135deg, #f0f4ff 0%, #f9fbfd 100%);
+            padding: 140px 0 100px;
         }
-        
-        .hero-content {
+
+        .hero-row {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(255, 87, 34, 0.1);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--lava-amber);
+            margin-bottom: 24px;
+        }
+
+        .hero-tag i {
+            color: var(--lava-primary);
+        }
+
+        .hero-row h1 {
+            font-family: var(--font-title);
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.12;
+            letter-spacing: -1.5px;
+            margin-bottom: 22px;
+        }
+
+        .hero-row p {
+            font-size: 18px;
+            color: var(--text-mid);
+            line-height: 1.7;
+            margin-bottom: 36px;
+            max-width: 580px;
+        }
+
+        .hero-cta-cluster {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* Hero 3D Viewport Simulator */
+        .viewport-container {
+            background: var(--bg-panel);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border-dim);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 40px rgba(255, 87, 34, 0.08);
+            position: relative;
+        }
+
+        .viewport-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-dim);
+            margin-bottom: 16px;
+        }
+
+        .viewport-title {
+            font-family: var(--font-code);
+            font-size: 12px;
+            color: var(--text-low);
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 8px;
         }
-        
-        .hero-text {
-            flex: 1;
-            padding-right: 40px;
-        }
-        
-        .hero-text h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            color: #222;
-        }
-        
-        .hero-text h1 span {
-            color: #4361ee;
-        }
-        
-        .hero-text p {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 30px;
-            max-width: 600px;
-        }
-        
-        .hero-buttons {
+
+        .viewport-screen {
+            height: 240px;
+            background: linear-gradient(180deg, #12121c 0%, #0a0a0f 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
             display: flex;
-            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            background-image: 
+                linear-gradient(rgba(255, 87, 34, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 87, 34, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
         }
-        
-        .secondary-button {
-            background-color: white;
-            color: #4361ee;
-            border: 2px solid #4361ee;
-            padding: 12px 28px;
-            border-radius: 6px;
-            font-weight: 600;
+
+        .splat-visual-core {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 87, 34, 0.8) 0%, rgba(255, 152, 0, 0.2) 60%, transparent 80%);
+            filter: blur(10px);
+            animation: pulse-glow 3s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(0.9); opacity: 0.7; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .screen-overlay-data {
+            position: absolute;
+            bottom: 12px;
+            left: 14px;
+            right: 14px;
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-code);
+            font-size: 11px;
+            color: var(--text-low);
+        }
+
+        .viewport-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-dim);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stat-pill-label {
+            font-size: 10px;
+            color: var(--text-low);
+            text-transform: uppercase;
+            font-family: var(--font-code);
+        }
+
+        .stat-pill-val {
+            font-family: var(--font-code);
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 2px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+        }
+
+        .section-headline {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-headline h2 {
+            font-family: var(--font-title);
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            margin-bottom: 16px;
+        }
+
+        .section-headline p {
+            color: var(--text-mid);
+            max-width: 660px;
+            margin: 0 auto;
+            font-size: 17px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .feature-box {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-dim);
+            border-radius: 16px;
+            padding: 34px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-glow);
+            background: var(--bg-panel-hover);
+        }
+
+        .feature-icon-ember {
+            width: 54px;
+            height: 54px;
+            background: rgba(255, 87, 34, 0.08);
+            border: 1px solid rgba(255, 87, 34, 0.25);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--lava-primary);
+            font-size: 22px;
+            margin-bottom: 22px;
+        }
+
+        .feature-box h3 {
+            font-family: var(--font-title);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .feature-box p {
+            color: var(--text-mid);
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        /* Metrics / Benchmarks Section */
+        .metrics {
+            padding: 80px 0;
+            background: rgba(15, 15, 21, 0.6);
+            border-top: 1px solid var(--border-dim);
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .metric-cell {
+            text-align: center;
+            padding: 24px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid var(--border-dim);
+        }
+
+        .metric-value {
+            font-size: 46px;
+            font-weight: 800;
+            font-family: var(--font-code);
+            margin-bottom: 6px;
+        }
+
+        .metric-cell h4 {
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .metric-cell p {
+            color: var(--text-low);
+            font-size: 13px;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 100px 0;
+        }
+
+        .testimonial-slider-deck {
+            max-width: 840px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial-frame {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-dim);
+            border-radius: 20px;
+            padding: 48px;
+            text-align: center;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.6);
+        }
+
+        .quote-glyph {
+            font-size: 36px;
+            color: var(--lava-primary);
+            opacity: 0.3;
+            margin-bottom: 20px;
+        }
+
+        .quote-content {
+            font-size: 21px;
+            line-height: 1.7;
+            color: #f1f5f9;
+            margin-bottom: 34px;
+        }
+
+        .author-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .author-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--lava-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #07070a;
+            font-size: 18px;
+        }
+
+        .author-desc h5 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .author-desc span {
+            font-size: 14px;
+            color: var(--text-low);
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .arrow-nav {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-dim);
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .arrow-nav:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .dot-series {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot-item {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
             cursor: pointer;
             transition: all 0.3s;
         }
-        
-        .secondary-button:hover {
-            background-color: #f0f4ff;
+
+        .dot-item.active {
+            width: 26px;
+            border-radius: 999px;
+            background: var(--lava-primary);
         }
-        
-        .hero-image {
-            flex: 1;
-            text-align: center;
-        }
-        
-        .hero-image img {
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 20px 40px rgba(67, 97, 238, 0.15);
-        }
-        
-        /* Features Section */
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
-        .section-title h2 {
-            font-size: 36px;
-            color: #222;
-            margin-bottom: 15px;
-        }
-        
-        .section-title p {
-            color: #666;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .features {
-            padding: 100px 0;
-            background-color: white;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-        
-        .feature-card {
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .feature-icon {
-            background-color: #eef2ff;
-            color: #4361ee;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            font-size: 28px;
-        }
-        
-        .feature-card h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-        
-        .feature-card p {
-            color: #666;
-        }
-        
-        /* Benefits Section */
-        .benefits {
-            padding: 100px 0;
-            background-color: #f0f4ff;
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-        
-        .benefit-item {
-            text-align: center;
-            padding: 30px 20px;
-        }
-        
-        .benefit-icon {
-            color: #4361ee;
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
-        
-        .benefit-item h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-        
-        .benefit-item p {
-            color: #666;
-        }
-        
-        /* Testimonials */
-        .testimonials {
-            padding: 100px 0;
-            background-color: white;
-        }
-        
-        .testimonial-slider {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-        }
-        
-        .testimonial {
-            background: #f9fbfd;
-            padding: 40px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .testimonial-text {
-            font-size: 18px;
-            font-style: italic;
-            margin-bottom: 30px;
-            color: #555;
-        }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .author-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #ddd;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #4361ee;
-            font-size: 24px;
-        }
-        
-        .author-info h4 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        
-        .author-info p {
-            color: #777;
-            font-size: 14px;
-        }
-        
+
         /* Pricing Section */
         .pricing {
             padding: 100px 0;
-            background-color: #f9fbfd;
         }
-        
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        
-        .pricing-card {
-            background: white;
-            border-radius: 10px;
-            padding: 40px 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .pricing-card.featured {
-            border-top: 5px solid #4361ee;
-            transform: scale(1.05);
-            position: relative;
-        }
-        
-        .featured-badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #4361ee;
-            color: white;
-            padding: 5px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        
-        .pricing-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .pricing-card.featured:hover {
-            transform: scale(1.05) translateY(-10px);
-        }
-        
-        .plan-name {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #333;
-        }
-        
-        .plan-price {
-            font-size: 48px;
-            font-weight: 700;
-            color: #4361ee;
-            margin-bottom: 20px;
-        }
-        
-        .plan-price span {
-            font-size: 16px;
-            color: #777;
-        }
-        
-        .plan-features {
-            list-style: none;
-            margin-bottom: 30px;
-        }
-        
-        .plan-features li {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            color: #555;
-        }
-        
-        .plan-features li:last-child {
-            border-bottom: none;
-        }
-        
-        /* CTA Section */
-        .cta-section {
-            padding: 100px 0;
-            background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
-            text-align: center;
-            color: white;
-        }
-        
-        .cta-section h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-        
-        .cta-section p {
-            font-size: 18px;
-            max-width: 700px;
-            margin: 0 auto 30px;
-            opacity: 0.9;
-        }
-        
-        .cta-section .cta-button {
-            background-color: white;
-            color: #4361ee;
-            font-size: 16px;
-            padding: 15px 40px;
-        }
-        
-        .cta-section .cta-button:hover {
-            background-color: #f0f4ff;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: #222;
-            color: #ccc;
-            padding: 70px 0 20px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
+
+        .billing-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
             margin-bottom: 50px;
         }
-        
-        .footer-column h3 {
-            font-size: 20px;
-            color: white;
-            margin-bottom: 25px;
+
+        .billing-selector span {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-low);
         }
-        
-        .footer-links {
+
+        .billing-selector span.active {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .toggle-capsule {
+            width: 56px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            padding: 3px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .toggle-core {
+            width: 24px;
+            height: 24px;
+            background: var(--lava-primary);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .toggle-capsule.annual .toggle-core {
+            transform: translateX(26px);
+        }
+
+        .save-tag {
+            background: rgba(255, 87, 34, 0.15);
+            color: var(--lava-amber);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 87, 34, 0.3);
+        }
+
+        .pricing-shelf {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            align-items: stretch;
+        }
+
+        .shelf-tier {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-dim);
+            border-radius: 18px;
+            padding: 42px 32px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .shelf-tier.featured {
+            border-color: rgba(255, 87, 34, 0.5);
+            box-shadow: 0 0 35px rgba(255, 87, 34, 0.15);
+            background: linear-gradient(180deg, rgba(28, 20, 20, 0.8) 0%, rgba(15, 15, 21, 0.8) 100%);
+            transform: scale(1.03);
+        }
+
+        .tier-star {
+            position: absolute;
+            top: -13px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--lava-gradient);
+            color: #07070a;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 16px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tier-name {
+            font-family: var(--font-title);
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .tier-tagline {
+            font-size: 14px;
+            color: var(--text-low);
+            margin-bottom: 24px;
+            min-height: 42px;
+        }
+
+        .tier-cost-wrap {
+            margin-bottom: 28px;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .tier-cost {
+            font-size: 46px;
+            font-weight: 800;
+            font-family: var(--font-code);
+            color: #fff;
+        }
+
+        .tier-rate {
+            color: var(--text-low);
+            font-size: 14px;
+        }
+
+        .tier-checklist {
+            list-style: none;
+            margin-bottom: 36px;
+            flex-grow: 1;
+        }
+
+        .tier-checklist li {
+            font-size: 14px;
+            color: #cbd5e1;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tier-checklist li i {
+            color: var(--lava-primary);
+            font-size: 14px;
+        }
+
+        /* Banner CTA */
+        .cta-banner {
+            padding: 90px 0;
+            margin: 60px 0 100px;
+            background: linear-gradient(135deg, rgba(255, 87, 34, 0.1) 0%, rgba(255, 152, 0, 0.05) 100%);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            border-radius: 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(255, 87, 34, 0.08);
+        }
+
+        .cta-banner h2 {
+            font-family: var(--font-title);
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 18px;
+            letter-spacing: -0.6px;
+        }
+
+        .cta-banner p {
+            color: var(--text-mid);
+            font-size: 18px;
+            max-width: 620px;
+            margin: 0 auto 36px;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-dim);
+            background: #050508;
+            padding: 80px 0 30px;
+        }
+
+        .footer-shelf {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 48px;
+            margin-bottom: 60px;
+        }
+
+        .footer-intro p {
+            color: var(--text-low);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-top: 16px;
+            max-width: 320px;
+        }
+
+        .footer-links-box h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-list {
             list-style: none;
         }
-        
-        .footer-links li {
+
+        .footer-list li {
             margin-bottom: 12px;
         }
-        
-        .footer-links a {
-            color: #aaa;
+
+        .footer-list a {
+            color: var(--text-low);
             text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: #4361ee;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #444;
             font-size: 14px;
-            color: #888;
+            transition: color 0.2s;
         }
-        
-        /* Responsive Design */
+
+        .footer-list a:hover {
+            color: var(--lava-primary);
+        }
+
+        .footer-base {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 28px;
+            border-top: 1px solid var(--border-dim);
+            font-size: 13px;
+            color: var(--text-low);
+        }
+
+        /* Toast Component */
+        .toast-banner {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(18, 18, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--lava-primary);
+            color: #fff;
+            padding: 14px 22px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .toast-banner.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
         @media (max-width: 992px) {
-            .hero-content {
-                flex-direction: column;
-            }
-            
-            .hero-text {
-                padding-right: 0;
-                margin-bottom: 50px;
+            .hero-row {
+                grid-template-columns: 1fr;
                 text-align: center;
             }
-            
-            .hero-text p {
-                margin: 0 auto 30px;
+
+            .hero-row p {
+                margin: 0 auto 36px;
             }
-            
-            .pricing-card.featured {
+
+            .hero-cta-cluster {
+                justify-content: center;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pricing-shelf {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+                margin: 0 auto;
+            }
+
+            .shelf-tier.featured {
                 transform: none;
             }
-            
-            .pricing-card.featured:hover {
-                transform: translateY(-10px);
+
+            .footer-shelf {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
-        
+
         @media (max-width: 768px) {
-            .nav-links {
+            .nav-menu, .nav-buttons .btn-lava {
                 display: none;
             }
-            
-            .mobile-menu-btn {
+
+            .mobile-hamburger {
                 display: block;
             }
-            
-            .hero-text h1 {
-                font-size: 36px;
-            }
-            
-            .section-title h2 {
-                font-size: 30px;
-            }
-            
-            .hero-buttons {
+
+            .nav-menu.mobile-active {
+                display: flex;
                 flex-direction: column;
-                align-items: center;
-            }
-            
-            .hero-buttons button {
+                position: absolute;
+                top: 76px;
+                left: 0;
                 width: 100%;
-                max-width: 300px;
+                background: #07070a;
+                padding: 24px;
+                border-bottom: 1px solid var(--border-dim);
             }
-        }
-        
-        @media (max-width: 576px) {
-            .hero {
-                padding: 130px 0 80px;
+
+            .hero-row h1 {
+                font-size: 38px;
             }
-            
-            .features, .benefits, .testimonials, .pricing, .cta-section {
-                padding: 70px 0;
+
+            .features-grid {
+                grid-template-columns: 1fr;
             }
-            
-            .feature-card, .testimonial {
-                padding: 25px;
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
             }
-            
-            .plan-price {
-                font-size: 36px;
+
+            .footer-shelf {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-base {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header & Navigation -->
+
+    <!-- Top Alert Ribbon -->
+    <div class="alert-strip">
+        ✦ AetherLens 2.5 Volumetric Kernel Live: 4K Spatial Video & 120 FPS Neural Relighting. 
+        <span onclick="triggerToast('Exploring AetherLens 2.5 Release Notes...')">Discover Specs &rarr;</span>
+    </div>
+
+    <!-- Header -->
     <header>
         <div class="container">
             <nav>
-                <div class="logo">
-                    <div class="logo-icon"><i class="fas fa-bezier-curve"></i></div>
-                    <div class="logo-text">Code<span>Flow</span></div>
-                </div>
-                
-                <ul class="nav-links">
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#benefits">Benefits</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
-                    <li><a href="#">Resources</a></li>
+                <a href="#" class="brand-logo">
+                    <div class="logo-glyph"><i class="fas fa-cube"></i></div>
+                    <div class="logo-wordmark">Aether<span>Lens</span></div>
+                </a>
+
+                <ul class="nav-menu">
+                    <li><a href="#features">Neural Splatting</a></li>
+                    <li><a href="#metrics">Benchmarks</a></li>
+                    <li><a href="#testimonials">Cinematic Proof</a></li>
+                    <li><a href="#pricing">Studio Tier</a></li>
+                    <li><a href="#">Showcase</a></li>
                 </ul>
-                
-                <button class="cta-button">Start Free Trial</button>
-                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+
+                <div class="nav-buttons">
+                    <a href="#pricing" class="btn-outline" style="padding: 9px 18px;">Sign In</a>
+                    <button class="btn-lava" onclick="triggerToast('Initializing GPU Cloud Studio...')">
+                        <i class="fas fa-play"></i> Launch Studio
+                    </button>
+                    <button class="mobile-hamburger" id="hamburgerBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </nav>
         </div>
     </header>
@@ -591,17 +996,56 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Build Apps Faster With <span>Visual Development</span></h1>
-                    <p>CodeFlow empowers teams to create enterprise-grade applications with minimal coding. Drag, drop, and connect components to build powerful web and mobile apps in record time.</p>
-                    <div class="hero-buttons">
-                        <button class="cta-button">Start Building Free</button>
-                        <button class="secondary-button">Watch Demo</button>
+            <div class="hero-row">
+                <div class="hero-copy">
+                    <div class="hero-tag">
+                        <i class="fas fa-fire-flame-curved"></i> Real-Time Gaussian Radiance Fields
+                    </div>
+                    <h1>Render Infinite Worlds at <span class="lava-text">120 FPS</span></h1>
+                    <p>Reconstruct micrometric physical 3D spaces from single-view footage or prompts. Stream photorealistic neural ray-tracing directly to WebGL, Apple Vision Pro, and Unreal Engine 5.</p>
+                    <div class="hero-cta-cluster">
+                        <button class="btn-lava" onclick="triggerToast('Allocating Neural Rendering Cluster...')">
+                            <i class="fas fa-wand-magic-sparkles"></i> Start Free Studio
+                        </button>
+                        <a href="#features" class="btn-outline">
+                            <i class="fas fa-vr-cardboard"></i> Watch 4K Spatial Reel
+                        </a>
                     </div>
                 </div>
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="CodeFlow Platform Interface">
+
+                <!-- Hero 3D Viewport Simulator -->
+                <div class="viewport-container">
+                    <div class="viewport-header">
+                        <div class="viewport-title">
+                            <i class="fas fa-circle-notch fa-spin" style="color: var(--lava-primary);"></i>
+                            <span>gpu_cluster_nv04 :: volumetric_live</span>
+                        </div>
+                        <i class="fas fa-sliders" style="color: var(--text-low); font-size: 13px;"></i>
+                    </div>
+
+                    <div class="viewport-screen">
+                        <div class="splat-visual-core"></div>
+                        <div class="screen-overlay-data">
+                            <span>SPLAT_RES: <strong style="color: #fff;">4096&times;4096</strong></span>
+                            <span>PASS: <strong style="color: #ff9800;">NEURAL_DIF_04</strong></span>
+                            <span>LATENCY: <strong style="color: #4ade80;">4.2ms</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="viewport-stats-grid">
+                        <div class="stat-pill">
+                            <div class="stat-pill-label">Active Splats</div>
+                            <div class="stat-pill-val">4.82M</div>
+                        </div>
+                        <div class="stat-pill">
+                            <div class="stat-pill-label">VRAM Usage</div>
+                            <div class="stat-pill-val">3.1 GB</div>
+                        </div>
+                        <div class="stat-pill">
+                            <div class="stat-pill-label">Ray Samples</div>
+                            <div class="stat-pill-val">1024 bpd</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -610,127 +1054,122 @@
     <!-- Features Section -->
     <section class="features" id="features">
         <div class="container">
-            <div class="section-title">
-                <h2>Powerful Features for Rapid Development</h2>
-                <p>CodeFlow provides all the tools you need to build, deploy, and scale applications without writing extensive code.</p>
+            <div class="section-headline">
+                <h2>Engineered for Spatial Production Pipelines</h2>
+                <p>Equip VFX artists, game studios, and spatial developers with sub-millimeter Gaussian reconstructions and instant radiance baking.</p>
             </div>
-            
+
             <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-th-large"></i>
+                <div class="feature-box">
+                    <div class="feature-icon-ember">
+                        <i class="fas fa-cubes-stacked"></i>
                     </div>
-                    <h3>Visual Builder</h3>
-                    <p>Drag and drop UI components to design responsive interfaces. Connect data sources with simple point-and-click actions.</p>
+                    <h3>Volumetric Radiance Fields</h3>
+                    <p>Synthesize complete 360-degree holographic environments from standard drone or smartphone video passes with continuous parallax.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-database"></i>
+
+                <div class="feature-box">
+                    <div class="feature-icon-ember">
+                        <i class="fas fa-bolt-lightning"></i>
                     </div>
-                    <h3>Database Integration</h3>
-                    <p>Connect to any data source with built-in connectors. Automatically generate CRUD operations without writing SQL.</p>
+                    <h3>Physically-Based Relighting</h3>
+                    <p>Separate diffuse albedo, surface roughness, and normal passes in real-time. Drop virtual HDRIs onto scanned physical sets.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
+
+                <div class="feature-box">
+                    <div class="feature-icon-ember">
+                        <i class="fas fa-network-wired"></i>
                     </div>
-                    <h3>Cross-Platform</h3>
-                    <p>Build once, deploy everywhere. Generate applications for web, iOS, and Android from a single visual design.</p>
+                    <h3>Ultra-Low Latency WebRTC</h3>
+                    <p>Stream massive 50M-polygon volumetric scenes directly into web browsers and mobile XR headsets at sub-12ms frame budgets.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-code"></i>
+
+                <div class="feature-box">
+                    <div class="feature-icon-ember">
+                        <i class="fas fa-gamepad"></i>
                     </div>
-                    <h3>Extensible with Code</h3>
-                    <p>Add custom functionality with JavaScript when needed. Our platform doesn't limit your creativity or complexity.</p>
+                    <h3>Unreal Engine 5 Nanite Sync</h3>
+                    <p>One-click USD and PLY export workflows compatible with Unreal Engine 5.4, Blender Geometry Nodes, and Maya Bifrost.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
+
+                <div class="feature-box">
+                    <div class="feature-icon-ember">
+                        <i class="fas fa-camera-rotate"></i>
                     </div>
-                    <h3>Enterprise Security</h3>
-                    <p>Built-in authentication, authorization, and data encryption. SOC2 compliant with enterprise-grade security features.</p>
+                    <h3>Dynamic NeRF Trajectories</h3>
+                    <p>Program cinematic virtual camera rigs with customizable bokeh, focal lengths, motion blur, and sensor grain curves.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-rocket"></i>
+
+                <div class="feature-box">
+                    <div class="feature-icon-ember">
+                        <i class="fas fa-server"></i>
                     </div>
-                    <h3>One-Click Deployment</h3>
-                    <p>Deploy to cloud or on-premises with a single click. Automatic scaling and monitoring included.</p>
+                    <h3>Dedicated GPU Swarms</h3>
+                    <p>High-throughput automated batch clustering on NVIDIA H100 instances with zero job queue delays or memory bottlenecks.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Benefits Section -->
-    <section class="benefits" id="benefits">
+    <!-- Metrics Section -->
+    <section class="metrics" id="metrics">
         <div class="container">
-            <div class="section-title">
-                <h2>Why Choose CodeFlow?</h2>
-                <p>Join thousands of companies accelerating their digital transformation with low-code development.</p>
-            </div>
-            
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>10x Faster Development</h3>
-                    <p>Build applications in days instead of months with visual development tools.</p>
+            <div class="metrics-grid">
+                <div class="metric-cell">
+                    <div class="metric-value lava-text">120 FPS</div>
+                    <h4>Real-Time Framerate</h4>
+                    <p>Continuous 4K spatial viewport</p>
                 </div>
-                
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-money-bill-wave"></i>
-                    </div>
-                    <h3>Reduce Costs by 70%</h3>
-                    <p>Lower development and maintenance costs with fewer resources required.</p>
+                <div class="metric-cell">
+                    <div class="metric-value lava-text">10x</div>
+                    <h4>Compression Ratio</h4>
+                    <p>Smaller than raw polygonal meshes</p>
                 </div>
-                
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3>Citizen Developers</h3>
-                    <p>Enable business users to build solutions with minimal IT assistance.</p>
+                <div class="metric-cell">
+                    <div class="metric-value lava-text">4.2ms</div>
+                    <h4>Inference Latency</h4>
+                    <p>Hardware-accelerated CUDA kernel</p>
                 </div>
-                
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Scale Effortlessly</h3>
-                    <p>From prototype to enterprise-scale applications with the same platform.</p>
+                <div class="metric-cell">
+                    <div class="metric-value lava-text">100M+</div>
+                    <h4>Rendered Frames Daily</h4>
+                    <p>Powering Hollywood & 3A Studios</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials -->
+    <!-- Testimonials Section -->
     <section class="testimonials" id="testimonials">
         <div class="container">
-            <div class="section-title">
-                <h2>Trusted by Industry Leaders</h2>
-                <p>See what our customers have to say about their experience with CodeFlow.</p>
+            <div class="section-headline">
+                <h2>Approved by Hollywood & Game Directors</h2>
+                <p>Discover how world-class creative studios replace weeks of manual photogrammetry with AetherLens.</p>
             </div>
-            
-            <div class="testimonial-slider">
-                <div class="testimonial">
-                    <div class="testimonial-text">
-                        "CodeFlow transformed how we deliver solutions to our business units. What used to take 6 months now takes 3 weeks. Our development team can focus on complex problems while business teams build their own solutions."
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">SC</div>
-                        <div class="author-info">
-                            <h4>Sarah Chen</h4>
-                            <p>CTO, TechGrowth Inc.</p>
+
+            <div class="testimonial-slider-deck">
+                <div class="testimonial-frame">
+                    <i class="fas fa-quote-left quote-glyph"></i>
+                    <p class="quote-content" id="quoteText">
+                        "AetherLens cut our virtual production pre-visualization cycle from two weeks to 40 minutes. The specular fidelity and dynamic relighting on Gaussian splats are simply peerless."
+                    </p>
+                    <div class="author-group">
+                        <div class="author-icon" id="quoteAvatar">AX</div>
+                        <div class="author-desc">
+                            <h5 id="quoteAuthor">Alexander Vance</h5>
+                            <span id="quoteTitle">Head of Virtual Production, Nexus VFX Labs</span>
                         </div>
                     </div>
+                </div>
+
+                <div class="slider-controls">
+                    <button class="arrow-nav" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+                    <div class="dot-series">
+                        <div class="dot-item active" onclick="gotoSlide(0)"></div>
+                        <div class="dot-item" onclick="gotoSlide(1)"></div>
+                        <div class="dot-item" onclick="gotoSlide(2)"></div>
+                    </div>
+                    <button class="arrow-nav" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
         </div>
@@ -739,228 +1178,260 @@
     <!-- Pricing Section -->
     <section class="pricing" id="pricing">
         <div class="container">
-            <div class="section-title">
-                <h2>Simple, Transparent Pricing</h2>
-                <p>Choose the plan that fits your needs. All plans include core features with no hidden fees.</p>
+            <div class="section-headline">
+                <h2>Clear, Predictable Cloud GPU Tiers</h2>
+                <p>Scale effortlessly from indie game asset reconstruction to real-time Hollywood studio rendering.</p>
             </div>
-            
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3 class="plan-name">Starter</h3>
-                    <div class="plan-price">$29<span>/month</span></div>
-                    <ul class="plan-features">
-                        <li>Up to 5 users</li>
-                        <li>10 GB storage</li>
-                        <li>Basic components</li>
-                        <li>Community support</li>
-                        <li>1 production app</li>
-                    </ul>
-                    <button class="secondary-button">Get Started</button>
+
+            <div class="billing-selector">
+                <span id="billMonth" class="active">Monthly Invoicing</span>
+                <div class="toggle-capsule" id="billingToggle" onclick="toggleBilling()">
+                    <div class="toggle-core"></div>
                 </div>
-                
-                <div class="pricing-card featured">
-                    <div class="featured-badge">Most Popular</div>
-                    <h3 class="plan-name">Professional</h3>
-                    <div class="plan-price">$89<span>/month</span></div>
-                    <ul class="plan-features">
-                        <li>Up to 25 users</li>
-                        <li>100 GB storage</li>
-                        <li>All components</li>
-                        <li>Priority support</li>
-                        <li>10 production apps</li>
-                        <li>Custom branding</li>
+                <span id="billYear">Annual Prepay <span class="save-tag">Save 20%</span></span>
+            </div>
+
+            <div class="pricing-shelf">
+                <!-- Creator Plan -->
+                <div class="shelf-tier">
+                    <h3 class="tier-name">Indie Spatial</h3>
+                    <p class="tier-tagline">Essential neural splatting tools for indie creators, artists, and researchers.</p>
+                    <div class="tier-cost-wrap">
+                        <span class="tier-cost" id="priceIndie">$39</span>
+                        <span class="tier-rate">/month</span>
+                    </div>
+                    <ul class="tier-checklist">
+                        <li><i class="fas fa-check"></i> 50 Cloud Splat Reconstructions/mo</li>
+                        <li><i class="fas fa-check"></i> Standard 4K Export (PLY / USDZ)</li>
+                        <li><i class="fas fa-check"></i> 50GB Cloud Asset Storage</li>
+                        <li><i class="fas fa-check"></i> Discord Community Support</li>
                     </ul>
-                    <button class="cta-button">Try Free for 14 Days</button>
+                    <button class="btn-outline" style="width: 100%; justify-content: center;" onclick="triggerToast('Selected Indie Spatial Plan')">Deploy Creator Node</button>
                 </div>
-                
-                <div class="pricing-card">
-                    <h3 class="plan-name">Enterprise</h3>
-                    <div class="plan-price">Custom</div>
-                    <ul class="plan-features">
-                        <li>Unlimited users</li>
-                        <li>Unlimited storage</li>
-                        <li>All features included</li>
-                        <li>24/7 dedicated support</li>
-                        <li>Unlimited apps</li>
-                        <li>On-premises option</li>
+
+                <!-- Featured Studio Tier -->
+                <div class="shelf-tier featured">
+                    <div class="tier-star">Industry Standard</div>
+                    <h3 class="tier-name">Production Studio</h3>
+                    <p class="tier-tagline">High-throughput GPU clusters for virtual production stages and game teams.</p>
+                    <div class="tier-cost-wrap">
+                        <span class="tier-cost lava-text" id="priceStudio">$149</span>
+                        <span class="tier-rate">/month</span>
+                    </div>
+                    <ul class="tier-checklist">
+                        <li><i class="fas fa-check"></i> Unlimited Neural Reconstructions</li>
+                        <li><i class="fas fa-check"></i> Real-time HDRI PBR Relighting</li>
+                        <li><i class="fas fa-check"></i> Direct Unreal Engine 5.4 Live Link</li>
+                        <li><i class="fas fa-check"></i> Priority H100 GPU Render Queuing</li>
+                        <li><i class="fas fa-check"></i> WebRTC 120 FPS XR Headset Streaming</li>
                     </ul>
-                    <button class="secondary-button">Contact Sales</button>
+                    <button class="btn-lava" style="width: 100%; justify-content: center;" onclick="triggerToast('Selected Production Studio Tier')">Start 14-Day Free Trial</button>
+                </div>
+
+                <!-- Enterprise Tier -->
+                <div class="shelf-tier">
+                    <h3 class="tier-name">VFX Enterprise</h3>
+                    <p class="tier-tagline">Dedicated on-premises or private cloud GPU nodes with bespoke pipeline adapters.</p>
+                    <div class="tier-cost-wrap">
+                        <span class="tier-cost">Custom</span>
+                    </div>
+                    <ul class="tier-checklist">
+                        <li><i class="fas fa-check"></i> Dedicated Private H100/B200 Clusters</li>
+                        <li><i class="fas fa-check"></i> Air-gapped Security & MPAA Audited</li>
+                        <li><i class="fas fa-check"></i> Custom C++/CUDA Engine Integration</li>
+                        <li><i class="fas fa-check"></i> 24/7 Dedicated Pipeline Architect</li>
+                    </ul>
+                    <button class="btn-outline" style="width: 100%; justify-content: center;" onclick="triggerToast('Inquiry Dispatched to Studio Engineering')">Contact Enterprise Team</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <h2>Start Building Today</h2>
-            <p>Join over 10,000 companies that use CodeFlow to accelerate their application development. No credit card required for the free trial.</p>
-            <button class="cta-button">Get Started for Free</button>
-        </div>
-    </section>
+    <!-- Call to Action Banner -->
+    <div class="container">
+        <section class="cta-banner">
+            <h2>Step Into the Real-Time Spatial Era Today</h2>
+            <p>Join over 40,000 spatial engineers and VFX supervisors transforming pixels into immersive volumes. Instant cloud access.</p>
+            <button class="btn-lava" style="font-size: 16px; padding: 14px 38px;" onclick="triggerToast('Provisioning Studio Cluster...')">
+                <i class="fas fa-rocket"></i> Launch Free GPU Studio
+            </button>
+        </section>
+    </div>
 
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <div class="logo">
-                        <div class="logo-icon"><i class="fas fa-bezier-curve"></i></div>
-                        <div class="logo-text">Code<span>Flow</span></div>
-                    </div>
-                    <p style="margin-top: 20px; color: #aaa;">The leading visual development platform for building enterprise applications with minimal coding.</p>
+            <div class="footer-shelf">
+                <div class="footer-intro">
+                    <a href="#" class="brand-logo">
+                        <div class="logo-glyph"><i class="fas fa-cube"></i></div>
+                        <div class="logo-wordmark">Aether<span>Lens</span></div>
+                    </a>
+                    <p>The sovereign neural rendering platform for spatial creators, virtual production studios, and real-time interactive worlds.</p>
                 </div>
-                
-                <div class="footer-column">
-                    <h3>Product</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Features</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">Use Cases</a></li>
-                        <li><a href="#">Integrations</a></li>
-                        <li><a href="#">Roadmap</a></li>
+
+                <div class="footer-links-box">
+                    <h4>Engine</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">Gaussian Splatting</a></li>
+                        <li><a href="#">Neural Relighting</a></li>
+                        <li><a href="#">WebRTC Streamer</a></li>
+                        <li><a href="#">Unreal LiveLink</a></li>
+                        <li><a href="#">Benchmark Suite</a></li>
                     </ul>
                 </div>
-                
-                <div class="footer-column">
-                    <h3>Resources</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Tutorials</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Community</a></li>
-                        <li><a href="#">Support</a></li>
+
+                <div class="footer-links-box">
+                    <h4>Ecosystem</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">Python/C++ SDK</a></li>
+                        <li><a href="#">Blender Addon</a></li>
+                        <li><a href="#">Apple Vision SDK</a></li>
+                        <li><a href="#">Sample Datasets</a></li>
+                        <li><a href="#">Discord Server</a></li>
                     </ul>
                 </div>
-                
-                <div class="footer-column">
-                    <h3>Company</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
+
+                <div class="footer-links-box">
+                    <h4>Security & IP</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">MPAA Studio Compliance</a></li>
+                        <li><a href="#">Enterprise Isolation</a></li>
+                        <li><a href="#">Model Provenance</a></li>
+                        <li><a href="#">Terms of Render</a></li>
                     </ul>
                 </div>
             </div>
-            
-            <div class="copyright">
-                <p>&copy; 2023 CodeFlow. All rights reserved.</p>
+
+            <div class="footer-base">
+                <div>&copy; 2026 AetherLens Neural Systems Inc. All rights reserved.</div>
+                <div>Volumetric Radiance at Nanosecond Precision.</div>
             </div>
         </div>
     </footer>
 
+    <!-- Toast Notification Component -->
+    <div class="toast-banner" id="toastBox">
+        <i class="fas fa-fire" style="color: var(--lava-primary);"></i>
+        <span id="toastMsg">Action executed</span>
+    </div>
+
     <script>
-        // Mobile menu toggle
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            const navLinks = document.querySelector('.nav-links');
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-            
-            // Adjust for mobile
-            if (window.innerWidth <= 768) {
-                if (navLinks.style.display === 'flex') {
-                    navLinks.style.flexDirection = 'column';
-                    navLinks.style.position = 'absolute';
-                    navLinks.style.top = '80px';
-                    navLinks.style.left = '0';
-                    navLinks.style.width = '100%';
-                    navLinks.style.backgroundColor = 'white';
-                    navLinks.style.padding = '20px';
-                    navLinks.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
-                    
-                    const navItems = document.querySelectorAll('.nav-links li');
-                    navItems.forEach(item => {
-                        item.style.margin = '10px 0';
-                    });
-                }
-            }
+        // Mobile Drawer Toggle
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('mobile-active');
         });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    if(window.innerWidth <= 768) {
-                        document.querySelector('.nav-links').style.display = 'none';
-                    }
-                }
+
+        document.querySelectorAll('.nav-menu a').forEach(item => {
+            item.addEventListener('click', () => {
+                navMenu.classList.remove('mobile-active');
             });
         });
-        
-        // Simple testimonial slider
-        const testimonials = [
+
+        // Billing Cycle Toggle (Monthly vs Annual with 20% discount)
+        let isAnnual = false;
+        const billingToggle = document.getElementById('billingToggle');
+        const billMonth = document.getElementById('billMonth');
+        const billYear = document.getElementById('billYear');
+        const priceIndie = document.getElementById('priceIndie');
+        const priceStudio = document.getElementById('priceStudio');
+
+        function toggleBilling() {
+            isAnnual = !isAnnual;
+            billingToggle.classList.toggle('annual', isAnnual);
+            billMonth.classList.toggle('active', !isAnnual);
+            billYear.classList.toggle('active', isAnnual);
+
+            if (isAnnual) {
+                priceIndie.textContent = '$29';
+                priceStudio.textContent = '$119';
+            } else {
+                priceIndie.textContent = '$39';
+                priceStudio.textContent = '$149';
+            }
+        }
+
+        // Testimonial Carousel Data & Logic
+        const slides = [
             {
-                text: "CodeFlow transformed how we deliver solutions to our business units. What used to take 6 months now takes 3 weeks. Our development team can focus on complex problems while business teams build their own solutions.",
-                name: "Sarah Chen",
-                position: "CTO, TechGrowth Inc.",
-                initials: "SC"
+                quote: "AetherLens cut our virtual production pre-visualization cycle from two weeks to 40 minutes. The specular fidelity and dynamic relighting on Gaussian splats are simply peerless.",
+                author: "Alexander Vance",
+                title: "Head of Virtual Production, Nexus VFX Labs",
+                avatar: "AV"
             },
             {
-                text: "We reduced our app development time by 80% using CodeFlow. The visual interface made it easy for our analysts to build data dashboards without waiting for IT resources.",
-                name: "Marcus Johnson",
-                position: "Director of Operations, DataCorp",
-                initials: "MJ"
+                quote: "Streaming 40-million-splat volumetric environments to Apple Vision Pro with under 10ms motion-to-photon latency felt like genuine magic. A generational milestone.",
+                author: "Miriam Soto",
+                title: "Spatial Computing Lead, Omniverse Games",
+                avatar: "MS"
             },
             {
-                text: "As a non-technical founder, CodeFlow allowed me to build our MVP in just 2 months. I could test ideas quickly and iterate based on user feedback without deep coding knowledge.",
-                name: "Lisa Wang",
-                position: "Founder, StartupLabs",
-                initials: "LW"
+                quote: "The Unreal Engine 5 Nanite export bridge seamlessly converted our scanned physical backlots into playable game assets with zero loss in geometric micro-details.",
+                author: "Kenji Sato",
+                title: "Technical Art Director, Horizon Interactive",
+                avatar: "KS"
             }
         ];
-        
-        let currentTestimonial = 0;
-        const testimonialElement = document.querySelector('.testimonial');
-        
-        function rotateTestimonial() {
-            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-            updateTestimonial();
-        }
-        
-        function updateTestimonial() {
-            const testimonial = testimonials[currentTestimonial];
-            testimonialElement.innerHTML = `
-                <div class="testimonial-text">"${testimonial.text}"</div>
-                <div class="testimonial-author">
-                    <div class="author-avatar">${testimonial.initials}</div>
-                    <div class="author-info">
-                        <h4>${testimonial.name}</h4>
-                        <p>${testimonial.position}</p>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Auto-rotate testimonials every 5 seconds
-        setInterval(rotateTestimonial, 5000);
-        
-        // CTA button interactions
-        document.querySelectorAll('.cta-button').forEach(button => {
-            button.addEventListener('click', function() {
-                alert('Thank you for your interest in CodeFlow! You would be redirected to the signup page in a real implementation.');
+
+        let currentSlide = 0;
+        const quoteText = document.getElementById('quoteText');
+        const quoteAuthor = document.getElementById('quoteAuthor');
+        const quoteTitle = document.getElementById('quoteTitle');
+        const quoteAvatar = document.getElementById('quoteAvatar');
+        const dots = document.querySelectorAll('.dot-series .dot-item');
+
+        function displaySlide(index) {
+            currentSlide = index;
+            const item = slides[index];
+
+            quoteText.style.opacity = '0';
+            setTimeout(() => {
+                quoteText.textContent = `"${item.quote}"`;
+                quoteAuthor.textContent = item.author;
+                quoteTitle.textContent = item.title;
+                quoteAvatar.textContent = item.avatar;
+                quoteText.style.opacity = '1';
+            }, 180);
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
             });
-        });
-        
-        // Pricing card interactions
-        document.querySelectorAll('.pricing-card button').forEach(button => {
-            button.addEventListener('click', function() {
-                const planName = this.closest('.pricing-card').querySelector('.plan-name').textContent;
-                alert(`You selected the ${planName} plan. In a real implementation, you would be redirected to the checkout process.`);
-            });
-        });
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            displaySlide(next);
+        }
+
+        function prevSlide() {
+            let prev = (currentSlide - 1 + slides.length) % slides.length;
+            displaySlide(prev);
+        }
+
+        function gotoSlide(i) {
+            displaySlide(i);
+        }
+
+        // Auto slide every 5.5 seconds
+        setInterval(nextSlide, 5500);
+
+        // Toast Feedback System
+        const toastBox = document.getElementById('toastBox');
+        const toastMsg = document.getElementById('toastMsg');
+        let toastTimeout;
+
+        function triggerToast(message) {
+            clearTimeout(toastTimeout);
+            toastMsg.textContent = message;
+            toastBox.classList.add('show');
+            toastTimeout = setTimeout(() => {
+                toastBox.classList.remove('show');
+            }, 3000);
+        }
     </script>
 </body>
 </html>
+```
